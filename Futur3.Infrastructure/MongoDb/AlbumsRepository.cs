@@ -1,15 +1,15 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 
+using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 
 using Futur3.Models.MongoDb;
 using Futur3.Models;
-using MongoDB.Bson;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
-using System.Net.Http;
-using Newtonsoft.Json;
 
 namespace Futur3.Infrastructure.MongoDb
 {

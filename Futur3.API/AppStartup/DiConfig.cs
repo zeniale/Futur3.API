@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
 using Futur3.Infrastructure.MongoDb;
+using Futur3.Infrastructure.Services;
 
 namespace Futur3.API.AppStartup
 {
@@ -9,6 +10,9 @@ namespace Futur3.API.AppStartup
         public static void AddDi(this IServiceCollection services)
         {
             services.AddScoped<AlbumsRepository>();
+            services.AddScoped<UsersRepository>();
+
+            services.AddScoped<AlbumPreviewService>();
         }
     }
 }

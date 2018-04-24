@@ -1,5 +1,7 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace Futur3.Models.MongoDb
 {
@@ -7,6 +9,9 @@ namespace Futur3.Models.MongoDb
     {
         [BsonId]
         public ObjectId Id { get; set; }
+        [BsonElement("externalId")]
+        [JsonProperty("id")]
+        public int ExternalId { get; set; }
         [BsonElement("name")]
         public string Name { get; set; }
         [BsonElement("username")]
@@ -21,6 +26,7 @@ namespace Futur3.Models.MongoDb
         public string Website { get; set; }
         [BsonElement("company")]
         public Company Company { get; set; }
-
+        [BsonElement("_createdAt")]
+        public DateTime CreatedAt { get; set; }
     }
 }

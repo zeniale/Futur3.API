@@ -13,6 +13,7 @@ namespace Futur3.Infrastructure.MongoDb
         private IMongoClient _client;
         private IMongoDatabase _database;
         private IMongoCollection<Album> _albumsCollection;
+        private IMongoCollection<User> _usersCollection;
 
         private readonly IOptions<ApplicationSettings> _applicationSettings;
 
@@ -27,6 +28,9 @@ namespace Futur3.Infrastructure.MongoDb
         {
             this._albumsCollection = this._database.GetCollection<Album>(this._applicationSettings.Value.MongoDbSettings.AlbumCollection);
             await this._albumsCollection.Indexes.CreateOneAsync(Builders<Album>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
+
+            this._usersCollection = this._database.GetCollection<User>(this._applicationSettings.Value.MongoDbSettings.UserCollection);
+            await this._usersCollection.Indexes.CreateOneAsync(Builders<User>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
         }
     }
 }

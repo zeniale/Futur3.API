@@ -16,6 +16,7 @@ namespace Futur3.Models
         public string DatabaseName { get; set; }
 
         public string AlbumCollection { get; set; }
+        public string UserCollection { get; set; }
     }
 
     public class RemoteDataServiceSettings

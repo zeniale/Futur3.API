@@ -12,10 +12,15 @@ namespace Futur3.API.Controllers
     public class ValuesController : Controller
     {
         private readonly AlbumsRepository _albumsRepository;
+        private readonly UsersRepository _usersRepository;
 
-        public ValuesController(AlbumsRepository albumsRepository)
+        public ValuesController(
+            AlbumsRepository albumsRepository,
+            UsersRepository usersRepository
+            )
         {
             this._albumsRepository = albumsRepository;
+            this._usersRepository = usersRepository;
         }
         // GET api/values
         [HttpGet]
@@ -53,6 +58,7 @@ namespace Futur3.API.Controllers
         public async Task GetAlbums()
         {
             var aaa = await this._albumsRepository.GetAlbumsListAsync();
+            var bbb = await this._usersRepository.GetAllUsersListAsync();
         }
 
         [HttpGet("insert-album")]
@@ -70,6 +76,7 @@ namespace Futur3.API.Controllers
         public async Task DeleteAlbums()
         {
             var aaa = await this._albumsRepository.DeleteAllAlbumsAsync();
+            var bbb = await this._usersRepository.DeleteAllUsersAsync();
         }
     }
 }

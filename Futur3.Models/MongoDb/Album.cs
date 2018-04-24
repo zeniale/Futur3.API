@@ -1,7 +1,8 @@
-﻿using MongoDB.Bson;
+﻿using System;
+
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
-using System;
 
 namespace Futur3.Models.MongoDb
 {
