@@ -1,24 +1,28 @@
-﻿using Futur3.Infrastructure.MongoDb;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
+using AutoMapper;
+
 using Futur3.Models.DTO;
 using Futur3.Models.MongoDb;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Futur3.Infrastructure.MongoDb;
 
 namespace Futur3.Infrastructure.Services
 {
     public class AlbumPreviewService
     {
+        private readonly IMapper _mapper;
         private readonly AlbumsRepository _albumsRepository;
         private readonly UsersRepository _usersRepository;
 
         public AlbumPreviewService(
+            IMapper mapper,
             AlbumsRepository albumsRepository,
             UsersRepository usersRepository
             )
         {
+            this._mapper = mapper;
             this._albumsRepository = albumsRepository;
             this._usersRepository = usersRepository;
         }
@@ -31,13 +35,9 @@ namespace Futur3.Infrastructure.Services
 
             foreach (Album album in albums)
             {
-                returnCollection.Add(
-                    new AlbumPreview
-                    {
-                        Album = album,
-                        User = users.SingleOrDefault(u => u.ExternalId == album.UserId)
-                    }
-                );
+                AlbumPreview albumPreview = this._mapper.Map<Album, AlbumPreview>(album);
+                this._mapper.Map<User, AlbumPreview>(users.SingleOrDefault(u => u.ExternalId == album.UserId), albumPreview);
+                returnCollection.Add(albumPreview);
             }
             return returnCollection;
         }

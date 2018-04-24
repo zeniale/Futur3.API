@@ -1,10 +1,14 @@
-﻿using Futur3.Models.MongoDb;
-
-namespace Futur3.Models.DTO
+﻿namespace Futur3.Models.DTO
 {
     public class AlbumPreview
     {
-        public Album Album { get; set; }
-        public User User { get; set; }
+        public int AlbumId { get; set; }
+
+        public string Name { get; set; }
+        public string WebSite { get; set; }
+        public string City { get; set; }
+        public string Lat { get; set; }
+        public string Lng { get; set; }
+        public int PhotoCount { get; set; }
     }
 }

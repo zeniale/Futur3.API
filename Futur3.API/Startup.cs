@@ -21,7 +21,11 @@ namespace Futur3.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<ApplicationSettings>(Configuration);
+
             services.AddDi();
+
+            services.AddAutoMapperConfig();
+
             services.AddMvc();
         }
 
