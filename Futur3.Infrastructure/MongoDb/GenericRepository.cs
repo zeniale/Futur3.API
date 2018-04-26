@@ -17,10 +17,9 @@ namespace Futur3.Infrastructure.MongoDb
     {
         private readonly IMongoClient _client;
         private readonly IMongoDatabase _database;
-        private readonly IMongoCollection<T> _collection;
+        protected readonly IMongoCollection<T> _collection;
         private readonly IOptions<ApplicationSettings> _applicationSettings;
         private readonly string _remoteCollectionUrl;
-
 
         public GenericRepository(
             IOptions<ApplicationSettings> applicationSettings,
@@ -36,25 +35,8 @@ namespace Futur3.Infrastructure.MongoDb
 
         public async Task<List<T>> GetListAsync()
         {
-            List<T> entities = await _collection.Find(new BsonDocument()).ToListAsync();
-            if (entities.Count == 0)
-            {
-                List<T> remoteEntities = await this.GetRemoteEntitiesAsync();
-                List<T> insertedEntities = await this.InsertManyAsync(remoteEntities);
-                return insertedEntities;
-            }
-            return entities;
-        }
-
-        private async Task<List<T>> GetRemoteEntitiesAsync()
-        {
-            using (HttpClient client = new HttpClient())
-            using (HttpResponseMessage response = await client.GetAsync(this._remoteCollectionUrl))
-            using (HttpContent content = response.Content)
-            {
-                string stringResult = await content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<List<T>>(stringResult);
-            }
+            await this.EnsureCollectionLoaded();
+            return await _collection.Find(new BsonDocument()).ToListAsync();
         }
 
         public async Task<T> InsertOneAsync(T entity)
@@ -77,6 +59,7 @@ namespace Futur3.Infrastructure.MongoDb
 
         public async Task<bool> UpdateOneAsync(ObjectId id, string udateFieldName, object updateFieldValue)
         {
+            await this.EnsureCollectionLoaded();
             var filter = Builders<T>.Filter.Eq("_id", id);
             var update = Builders<T>.Update.Set(udateFieldName, updateFieldValue);
 
@@ -87,6 +70,7 @@ namespace Futur3.Infrastructure.MongoDb
 
         public async Task<List<T>> GetByExternalIdAsync(int externaldId)
         {
+            await this.EnsureCollectionLoaded();
             var filter = Builders<T>.Filter.Eq("externalId", externaldId);
             var result = await _collection.Find(filter).ToListAsync();
 
@@ -95,6 +79,7 @@ namespace Futur3.Infrastructure.MongoDb
 
         public async Task<bool> DeleteOneByIdAsync(ObjectId id)
         {
+            await this.EnsureCollectionLoaded();
             var filter = Builders<T>.Filter.Eq("_id", id);
             var result = await _collection.DeleteOneAsync(filter);
             return result.DeletedCount != 0;
@@ -102,9 +87,30 @@ namespace Futur3.Infrastructure.MongoDb
 
         public async Task<long> DeleteAllAsync()
         {
+            await this.EnsureCollectionLoaded();
             var filter = new BsonDocument();
             var result = await _collection.DeleteManyAsync(filter);
             return result.DeletedCount;
+        }
+
+        protected async Task EnsureCollectionLoaded()
+        {
+            if (await _collection.CountAsync(new BsonDocument()) == 0)
+            {
+                List<T> remoteEntities = await this.GetRemoteEntitiesAsync();
+                await this.InsertManyAsync(remoteEntities);
+            }
+        }
+
+        private async Task<List<T>> GetRemoteEntitiesAsync()
+        {
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(this._remoteCollectionUrl))
+            using (HttpContent content = response.Content)
+            {
+                string stringResult = await content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<T>>(stringResult);
+            }
         }
     }
 }

@@ -10,5 +10,6 @@
         public string Lat { get; set; }
         public string Lng { get; set; }
         public int PhotoCount { get; set; }
+        public string RandomThumbnailUrl { get; set; }
     }
 }
