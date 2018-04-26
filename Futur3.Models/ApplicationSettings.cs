@@ -14,6 +14,8 @@
         public string AlbumCollection { get; set; }
         public string UserCollection { get; set; }
         public string PhotoCollection { get; set; }
+
+        public string AlbumPreviewCollection { get; set; }
     }
 
     public class RemoteDataServiceSettings

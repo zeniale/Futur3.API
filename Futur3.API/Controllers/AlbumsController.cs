@@ -7,7 +7,7 @@ using Futur3.Infrastructure.Services;
 
 namespace Futur3.API.Controllers
 {
-    [Route("api/Albums")]
+    [Route("api/[controller]")]
     public class AlbumsController : Controller
     {
         private readonly AlbumPreviewService _albumPreviewService;
@@ -18,7 +18,7 @@ namespace Futur3.API.Controllers
         }
 
         [HttpGet("preview")]
-        public async Task<List<AlbumPreview>> AlbumPreview()
+        public async Task<List<AlbumPreviewDto>> AlbumPreview()
         {
             var returnList= await this._albumPreviewService.GetAlbumsPreviewAsync();
             return returnList;

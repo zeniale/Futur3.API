@@ -1,40 +1,30 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
-
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 using Futur3.Models;
+using Futur3.Models.DTO;
 using Futur3.Models.MongoDb;
 
 namespace Futur3.Infrastructure.MongoDb
 {
-    public class IndexesGenerator
+    public static class IndexesGenerator
     {
-        private IMongoClient _client;
-        private IMongoDatabase _database;
-        private IMongoCollection<Album> _albumsCollection;
-        private IMongoCollection<User> _usersCollection;
-        private IMongoCollection<Photo> _photosCollection;
-
-        private readonly IOptions<ApplicationSettings> _applicationSettings;
-
-        public IndexesGenerator(IOptions<ApplicationSettings> applicationSettings)
+        public static void CreateIndexes(ApplicationSettings applicationSettings)
         {
-            this._applicationSettings = applicationSettings;
-            this._client = new MongoClient(this._applicationSettings.Value.MongoDbSettings.ConnectionString);
-            this._database = this._client.GetDatabase(this._applicationSettings.Value.MongoDbSettings.DatabaseName);
-        }
 
-        public async Task CreateIndexes()
-        {
-            this._albumsCollection = this._database.GetCollection<Album>(this._applicationSettings.Value.MongoDbSettings.AlbumCollection);
-            await this._albumsCollection.Indexes.CreateOneAsync(Builders<Album>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
+            IMongoClient client = new MongoClient(applicationSettings.MongoDbSettings.ConnectionString);
+            IMongoDatabase database = client.GetDatabase(applicationSettings.MongoDbSettings.DatabaseName);
 
-            this._usersCollection = this._database.GetCollection<User>(this._applicationSettings.Value.MongoDbSettings.UserCollection);
-            await this._usersCollection.Indexes.CreateOneAsync(Builders<User>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
+            IMongoCollection<Album> albumsCollection = database.GetCollection<Album>(applicationSettings.MongoDbSettings.AlbumCollection);
+            albumsCollection.Indexes.CreateOne(Builders<Album>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
 
-            this._photosCollection = this._database.GetCollection<Photo>(this._applicationSettings.Value.MongoDbSettings.PhotoCollection);
-            await this._photosCollection.Indexes.CreateOneAsync(Builders<Photo>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
+            IMongoCollection<User> usersCollection = database.GetCollection<User>(applicationSettings.MongoDbSettings.UserCollection);
+            usersCollection.Indexes.CreateOne(Builders<User>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
+
+            IMongoCollection<Photo> photosCollection = database.GetCollection<Photo>(applicationSettings.MongoDbSettings.PhotoCollection);
+            photosCollection.Indexes.CreateOne(Builders<Photo>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
+
+            IMongoCollection<AlbumPreview> albumsPreviewCollection = database.GetCollection<AlbumPreview>(applicationSettings.MongoDbSettings.AlbumPreviewCollection);
+            albumsPreviewCollection.Indexes.CreateOne(Builders<AlbumPreview>.IndexKeys.Ascending(_ => _.CreatedAt), new CreateIndexOptions { ExpireAfter = new System.TimeSpan(0, 2, 0) });
         }
     }
 }

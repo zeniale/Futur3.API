@@ -20,6 +20,8 @@ namespace Futur3.Infrastructure.Mappings
                 .ForMember(dest => dest.Lat, opt => opt.MapFrom(s => s.Address.Geo.Lat))
                 .ForMember(dest => dest.Lng, opt => opt.MapFrom(s => s.Address.Geo.Lng))
                 .ForAllOtherMembers(opt => opt.Ignore());
+
+            CreateMap<AlbumPreview, AlbumPreviewDto>();
         }
     }
 }

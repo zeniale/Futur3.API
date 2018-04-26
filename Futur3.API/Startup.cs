@@ -26,6 +26,8 @@ namespace Futur3.API
 
             services.AddAutoMapperConfig();
 
+            services.ConfigureMongoDbIndexes();
+
             services.AddMvc();
         }
 

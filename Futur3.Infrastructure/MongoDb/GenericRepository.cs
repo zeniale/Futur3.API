@@ -87,7 +87,6 @@ namespace Futur3.Infrastructure.MongoDb
 
         public async Task<long> DeleteAllAsync()
         {
-            await this.EnsureCollectionLoaded();
             var filter = new BsonDocument();
             var result = await _collection.DeleteManyAsync(filter);
             return result.DeletedCount;
