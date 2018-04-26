@@ -68,11 +68,22 @@ namespace Futur3.Infrastructure.MongoDb
             return result.ModifiedCount != 0;
         }
 
-        public async Task<List<T>> GetByExternalIdAsync(int externaldId)
+        public async Task<bool> UpdateOneByExternalIdAsync(int externalId, string udateFieldName, object updateFieldValue)
+        {
+            await this.EnsureCollectionLoaded();
+            var filter = Builders<T>.Filter.Eq("externalId", externalId);
+            var update = Builders<T>.Update.Set(udateFieldName, updateFieldValue);
+
+            var result = await _collection.UpdateOneAsync(filter, update);
+
+            return result.ModifiedCount != 0;
+        }
+
+        public async Task<T> GetByExternalIdAsync(int externaldId)
         {
             await this.EnsureCollectionLoaded();
             var filter = Builders<T>.Filter.Eq("externalId", externaldId);
-            var result = await _collection.Find(filter).ToListAsync();
+            var result = await _collection.Find(filter).FirstOrDefaultAsync();
 
             return result;
         }

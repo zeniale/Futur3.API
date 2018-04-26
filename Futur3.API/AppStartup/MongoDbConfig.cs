@@ -6,7 +6,7 @@ using Futur3.Infrastructure.MongoDb;
 
 namespace Futur3.API.AppStartup
 {
-    public static class MongoDbIndexConfig
+    public static class MongoDbConfig
     {
         public static void ConfigureMongoDbIndexes(this IServiceCollection services)
         {

@@ -23,6 +23,8 @@ namespace Futur3.Models.MongoDb
         public string Url { get; set; }
         [BsonElement("thumbnailUrl")]
         public string ThumbnailUrl { get; set; }
+        [BsonElement("likes")]
+        public int Likes { get; set; }
         [BsonElement("_createdAt")]
         public DateTime CreatedAt { get; set; }
     }

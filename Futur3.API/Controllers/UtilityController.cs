@@ -14,13 +14,13 @@ namespace Futur3.API.Controllers
         private readonly UsersRepository _usersRepository;
         private readonly AlbumsRepository _albumsRepository;
         private readonly PhotosRepository _photosRepository;
-        private readonly AlbumPreviewService _albumPreviewService;
+        private readonly AlbumsService _albumPreviewService;
 
         public UtilityController(
             UsersRepository usersRepository,
             AlbumsRepository albumsRepository,
             PhotosRepository photosRepository,
-            AlbumPreviewService albumPreviewService
+            AlbumsService albumPreviewService
             )
         {
             this._usersRepository = usersRepository;

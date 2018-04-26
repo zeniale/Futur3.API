@@ -22,6 +22,9 @@ namespace Futur3.Infrastructure.Mappings
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<AlbumPreview, AlbumPreviewDto>();
+
+            CreateMap<Photo, PhotoPreviewDto>();
+            CreateMap<Photo, PhotoDto>();
         }
     }
 }

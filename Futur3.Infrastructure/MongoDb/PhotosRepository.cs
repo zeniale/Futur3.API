@@ -1,10 +1,11 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Threading.Tasks;
+using System.Collections.Generic;
+using Microsoft.Extensions.Options;
+
+using MongoDB.Driver;
 
 using Futur3.Models;
 using Futur3.Models.MongoDb;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using MongoDB.Driver;
 
 namespace Futur3.Infrastructure.MongoDb
 {
@@ -19,6 +20,14 @@ namespace Futur3.Infrastructure.MongoDb
             var result = await _collection.Find(filter).ToListAsync();
 
             return result;
+        }
+
+        public async Task<bool> IncreaseLikes(int photoId)
+        {
+            UpdateDefinition<Photo> updateDef = Builders<Photo>.Update.Inc<int>(f => f.Likes, 1);
+
+            UpdateResult updateResult = await _collection.UpdateOneAsync(o => o.ExternalId == photoId, updateDef);
+            return updateResult.ModifiedCount > 0;
         }
     }
 }

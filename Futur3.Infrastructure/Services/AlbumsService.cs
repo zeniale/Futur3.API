@@ -1,45 +1,46 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 
 using AutoMapper;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
+using Futur3.Models;
 using Futur3.Models.DTO;
 using Futur3.Models.MongoDb;
 using Futur3.Infrastructure.MongoDb;
-using System;
-using Microsoft.Extensions.Options;
-using Futur3.Models;
-using MongoDB.Driver;
-using MongoDB.Bson;
 
 namespace Futur3.Infrastructure.Services
 {
-    public class AlbumPreviewService
+    public class AlbumsService
     {
-        private readonly IOptions<ApplicationSettings> _applicationSettings;
         private readonly IMapper _mapper;
-        private readonly AlbumsRepository _albumsRepository;
         private readonly UsersRepository _usersRepository;
+        private readonly AlbumsRepository _albumsRepository;
         private readonly PhotosRepository _photosRepository;
+        private readonly IOptions<ApplicationSettings> _applicationSettings;
 
         private readonly IMongoClient _client;
         private readonly IMongoDatabase _database;
         protected readonly IMongoCollection<AlbumPreview> _albumPreviewCollection;
 
-        public AlbumPreviewService(
-            IOptions<ApplicationSettings> applicationSettings,
+        public AlbumsService(
             IMapper mapper,
-            AlbumsRepository albumsRepository,
             UsersRepository usersRepository,
-            PhotosRepository photosRepository
+            AlbumsRepository albumsRepository,
+            PhotosRepository photosRepository,
+            IOptions<ApplicationSettings> applicationSettings
             )
         {
-            this._applicationSettings = applicationSettings;
             this._mapper = mapper;
-            this._albumsRepository = albumsRepository;
             this._usersRepository = usersRepository;
+            this._albumsRepository = albumsRepository;
             this._photosRepository = photosRepository;
+            this._applicationSettings = applicationSettings;
+
             this._client = new MongoClient(this._applicationSettings.Value.MongoDbSettings.ConnectionString);
             this._database = this._client.GetDatabase(this._applicationSettings.Value.MongoDbSettings.DatabaseName);
             this._albumPreviewCollection = this._database.GetCollection<AlbumPreview>(this._applicationSettings.Value.MongoDbSettings.AlbumPreviewCollection);

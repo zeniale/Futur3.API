@@ -13,7 +13,8 @@ namespace Futur3.API.AppStartup
             services.AddScoped<UsersRepository>();
             services.AddScoped<PhotosRepository>();
 
-            services.AddScoped<AlbumPreviewService>();
+            services.AddScoped<AlbumsService>();
+            services.AddScoped<PhotosService>();
         }
     }
 }

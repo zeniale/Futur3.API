@@ -10,18 +10,40 @@ namespace Futur3.API.Controllers
     [Route("api/[controller]")]
     public class AlbumsController : Controller
     {
-        private readonly AlbumPreviewService _albumPreviewService;
+        private readonly AlbumsService _albumPreviewService;
+        private readonly PhotosService _photosService;
 
-        public AlbumsController(AlbumPreviewService albumPreviewService)
+        public AlbumsController(
+            AlbumsService albumPreviewService,
+            PhotosService photosService
+            )
         {
             this._albumPreviewService = albumPreviewService;
+            this._photosService = photosService;
         }
 
         [HttpGet("preview")]
         public async Task<List<AlbumPreviewDto>> AlbumPreview()
         {
-            var returnList= await this._albumPreviewService.GetAlbumsPreviewAsync();
-            return returnList;
+            return await this._albumPreviewService.GetAlbumsPreviewAsync();
+        }
+
+        [HttpGet("preview/{albumId}")]
+        public async Task<List<PhotoPreviewDto>> PhotosPreview(int albumId)
+        {
+            return await this._photosService.GetByAlbumIdAsync(albumId);
+        }
+
+        [HttpGet("photo/{photoId}")]
+        public async Task<PhotoDto> GetPhotoById(int photoId)
+        {
+            return await this._photosService.GetByIdAsync(photoId);
+        }
+
+        [HttpPatch("increase-likes/{photoId}")]
+        public async Task<bool> IncreaseLike(int photoId)
+        {
+            return await this._photosService.IncreaseLikes(photoId);
         }
     }
 }
