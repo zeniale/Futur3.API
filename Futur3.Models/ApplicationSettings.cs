@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Futur3.Models
+﻿namespace Futur3.Models
 {
     public class ApplicationSettings
     {
@@ -17,11 +13,13 @@ namespace Futur3.Models
 
         public string AlbumCollection { get; set; }
         public string UserCollection { get; set; }
+        public string PhotoCollection { get; set; }
     }
 
     public class RemoteDataServiceSettings
     {
         public string AlbumsUrl { get; set; }
         public string UsersUrl { get; set; }
+        public string PhotosUrl { get; set; }
     }
 }

@@ -30,8 +30,8 @@ namespace Futur3.Infrastructure.Services
         public async Task<List<AlbumPreview>> GetAlbumsPreviewAsync()
         {
             List<AlbumPreview> returnCollection = new List<AlbumPreview>();
-            List<Album> albums = await this._albumsRepository.GetAlbumsListAsync();
-            List<User> users = await this._usersRepository.GetAllUsersListAsync();
+            List<Album> albums = await this._albumsRepository.GetListAsync();
+            List<User> users = await this._usersRepository.GetListAsync();
 
             foreach (Album album in albums)
             {

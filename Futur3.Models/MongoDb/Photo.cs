@@ -8,19 +8,21 @@ using Futur3.Models.MongoDb.Interfaces;
 
 namespace Futur3.Models.MongoDb
 {
-    public class Album: IMongoDbDocument
+    public class Photo: IMongoDbDocument
     {
         [BsonId]
         public ObjectId Id { get; set; }
-
         [BsonElement("externalId")]
         [JsonProperty("id")]
         public int ExternalId { get; set; }
-
-        [BsonElement("userId")]
-        public int UserId { get; set; }
+        [BsonElement("albumId")]
+        public int AlbumId { get; set; }
         [BsonElement("title")]
         public string Title { get; set; }
+        [BsonElement("url")]
+        public string Url { get; set; }
+        [BsonElement("thumbnailUrl")]
+        public string ThumbnailUrl { get; set; }
         [BsonElement("_createdAt")]
         public DateTime CreatedAt { get; set; }
     }

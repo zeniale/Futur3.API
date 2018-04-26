@@ -57,8 +57,8 @@ namespace Futur3.API.Controllers
         [HttpGet("albums")]
         public async Task GetAlbums()
         {
-            var aaa = await this._albumsRepository.GetAlbumsListAsync();
-            var bbb = await this._usersRepository.GetAllUsersListAsync();
+            var aaa = await this._albumsRepository.GetListAsync();
+            var bbb = await this._usersRepository.GetListAsync();
         }
 
         [HttpGet("insert-album")]
@@ -69,14 +69,14 @@ namespace Futur3.API.Controllers
                 Title = "Mio primo album",
                 UserId = 1
             };
-            await this._albumsRepository.InsertAlbumAsync(album);
+            await this._albumsRepository.InsertOneAsync(album);
         }
 
         [HttpGet("delete-albums")]
         public async Task DeleteAlbums()
         {
-            var aaa = await this._albumsRepository.DeleteAllAlbumsAsync();
-            var bbb = await this._usersRepository.DeleteAllUsersAsync();
+            var aaa = await this._albumsRepository.DeleteAllAsync();
+            var bbb = await this._usersRepository.DeleteAllAsync();
         }
     }
 }

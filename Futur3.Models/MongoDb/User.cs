@@ -1,11 +1,14 @@
 ﻿using System;
+
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 
+using Futur3.Models.MongoDb.Interfaces;
+
 namespace Futur3.Models.MongoDb
 {
-    public class User
+    public class User: IMongoDbDocument
     {
         [BsonId]
         public ObjectId Id { get; set; }
@@ -28,5 +31,6 @@ namespace Futur3.Models.MongoDb
         public Company Company { get; set; }
         [BsonElement("_createdAt")]
         public DateTime CreatedAt { get; set; }
+
     }
 }

@@ -1,9 +1,9 @@
-﻿using Futur3.Infrastructure.MongoDb;
-using Futur3.Infrastructure.Services;
-using Futur3.Models.DTO;
-using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+
+using Futur3.Models.DTO;
+using Futur3.Infrastructure.Services;
 
 namespace Futur3.API.Controllers
 {
