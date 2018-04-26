@@ -8,6 +8,7 @@ namespace Futur3.Models.DTO
     {
         public string Title { get; set; }
         public string Url { get; set; }
+        public int AlbumId { get; set; }
         public int Likes { get; set; }
     }
 }

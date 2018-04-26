@@ -11,6 +11,7 @@ namespace Futur3.Infrastructure.Mappings
         {
             CreateMap<Album, AlbumPreview>()
                 .ForMember(dest => dest.AlbumId, opt => opt.MapFrom(s => s.ExternalId))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(s => s.Title))
                 .ForAllOtherMembers(opt => opt.Ignore());
 
             CreateMap<User, AlbumPreview>()

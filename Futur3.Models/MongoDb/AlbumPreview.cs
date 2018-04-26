@@ -11,6 +11,8 @@ namespace Futur3.Models.DTO
         [BsonElement("albumId")]
         public int AlbumId { get; set; }
 
+        [BsonElement("title")]
+        public string Title { get; set; }
         [BsonElement("name")]
         public string Name { get; set; }
         [BsonElement("webSite")]

@@ -26,6 +26,8 @@ namespace Futur3.API
 
             services.AddDi();
 
+            services.AddCors(c => c.AddPolicy("AllowAll", p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin()));
+
             services.AddAutoMapperConfig();
 
             services.ConfigureMongoDbIndexes();
@@ -45,6 +47,7 @@ namespace Futur3.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseCors("AllowAll");
 
             app.UseMvc();
 
